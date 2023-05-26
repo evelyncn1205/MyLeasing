@@ -43,7 +43,7 @@ namespace MyLeasing.Web.Data
             {
                 Document=_random.Next(10000).ToString("D9"),
                 OwnerName = name,
-                FixedPhone = "9" + _random.Next(10000000, 99999999).ToString(),
+                FixedPhone = "2" + _random.Next(10000000, 99999999).ToString(),
                 CellPhone = "9" + _random.Next(10000000, 99999999).ToString(),
                 Address = address
             });
