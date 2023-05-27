@@ -5,18 +5,23 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using MyLeasing.Web.Data;
 using MyLeasing.Web.Data.Entities;
+using MyLeasing.Web.Helpers;
 
 namespace MyLeasing.Web.Controllers
 {
     public class OwnersController : Controller
     {
         private readonly IOwnerRepository _ownerRepository;
+        private readonly IUserHelper _userHelper;
+       
 
-        public OwnersController(IOwnerRepository ownerRepository )
+        public OwnersController(IOwnerRepository ownerRepository, IUserHelper userHelper)
         {
             _ownerRepository = ownerRepository;
+            _userHelper = userHelper;
         }
 
         // GET: Owners
@@ -56,11 +61,13 @@ namespace MyLeasing.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Owner owner)
         {
+            
             if (ModelState.IsValid)
             {
-               
+                owner.User = await _userHelper.GetUserByEmailAsync("evelynrx_rj@hotmail.com");
                 await _ownerRepository.CreatAsync(owner);
                 return RedirectToAction(nameof(Index));
+                                
             }
             return View(owner);
         }
@@ -96,9 +103,10 @@ namespace MyLeasing.Web.Controllers
             if (ModelState.IsValid)
             {
                 try
-                {
+                {                   
+                    owner.User = await _userHelper.GetUserByEmailAsync("evelynrx_rj@hotmail.com");
+
                     await _ownerRepository.UpdateAsync(owner);
-                    
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -112,6 +120,7 @@ namespace MyLeasing.Web.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index));
+                                
             }
             return View(owner);
         }
@@ -138,7 +147,7 @@ namespace MyLeasing.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var owner = await _ownerRepository.GetByIdAsync(id);            
+            var owner = await _ownerRepository.GetByIdAsync(id);                                 
             await _ownerRepository.DeleteAsync(owner);
             return RedirectToAction(nameof(Index));
         }

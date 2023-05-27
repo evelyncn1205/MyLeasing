@@ -23,7 +23,9 @@ namespace MyLeasing.Web.Data.Entities
         public string CellPhone { get; set; }
 
         [Required]
-        public string Address { get; set; } 
+        public string Address { get; set; }
 
+        public string UserId { get; set; }
+        public User User { get; set; }
     }
 }
