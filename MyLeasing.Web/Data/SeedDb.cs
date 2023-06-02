@@ -32,7 +32,7 @@ namespace MyLeasing.Web.Data
             {
                 user = new User
                 {
-                    FirstName = "Eveyn",
+                    FirstName = "Evelyn",
                     LastName = "Nunes",
                     Email = "evelynrx_rj@hotmail.com",
                     UserName = "evelynrx_rj@hotmail.com",

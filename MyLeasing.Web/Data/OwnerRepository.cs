@@ -15,7 +15,7 @@ namespace MyLeasing.Web.Data
 
         public IQueryable GetAllWithUsers()
         {
-            return _context.Owners.Include(p => p.User);
+            return _context.Owners.Include(m => m.User);
         }
     }
 }
