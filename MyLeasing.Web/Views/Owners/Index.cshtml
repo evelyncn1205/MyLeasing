@@ -1,4 +1,5 @@
-﻿@model IEnumerable<MyLeasing.Web.Data.Entities.Owner>
+﻿@using System.Security.Policy
+@model IEnumerable<MyLeasing.Web.Data.Entities.Owner>
 
 @{
     ViewData["Title"] = "Index";
@@ -17,8 +18,7 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.OwnerName)
-            </th>
-            
+            </th>            
             <th>
                 @Html.DisplayNameFor(model => model.FixedPhone)
             </th>
@@ -28,6 +28,8 @@
             <th>
                 @Html.DisplayNameFor(model => model.Address)
             </th>
+           
+
             <th></th>
         </tr>
     </thead>
@@ -37,19 +39,30 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Document)
             </td>
+
             <td>
-                    @Html.DisplayFor(modelItem => item.OwnerName)
+                @Html.DisplayFor(modelItem => item.OwnerName)
             </td>
             
             <td>
                 @Html.DisplayFor(modelItem => item.FixedPhone)
             </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.CellPhone)
             </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.Address)
             </td>
+
+            <th>
+               @if(!string.IsNullOrEmpty(item.ImageUrl))
+               {
+                        <img src="@Url.Content(item.ImageUrl)" alt=" Image" style="width:100px;height:150px;max-width:100%;height:auto">
+               }
+            </th>
+
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
