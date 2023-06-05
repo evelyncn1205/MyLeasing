@@ -64,7 +64,19 @@ namespace MyLeasing.Web.Data
                 AddOwner("Cristiano Ronaldo", "Travessa de Pomardufe 140",user);
                 await _context.SaveChangesAsync();
             }
+
+            if(!_context.Lessees.Any())
+            {
+                AddLessee("Evelyn", "Nunes", "Travessa de Pomardufe 140", user);
+                AddLessee("Carla", "Silva", "Rua da Felicidade 50", user);
+                AddLessee("Cristiano", "Ronaldo", "Av. da Liberdade 100", user);
+                AddLessee("Nuno", "Pereira", "Travessa dos Pesadelos 78", user);
+                AddLessee("Angela", "Castro", "Rua das Flores 200", user);
+                await _context.SaveChangesAsync();
+            }
         }
+
+        
 
         private void AddOwner(string name, string address,User user)
         {
@@ -72,6 +84,20 @@ namespace MyLeasing.Web.Data
             {
                 Document=_random.Next(10000).ToString("D9"),
                 OwnerName = name,
+                FixedPhone = "2" + _random.Next(10000000, 99999999).ToString(),
+                CellPhone = "9" + _random.Next(10000000, 99999999).ToString(),
+                Address = address,
+                User = user
+            });
+        }
+
+        private void AddLessee(string name,string lastName, string address, User user)
+        {
+            _context.Lessees.Add(new Lessee
+            {
+                Document = _random.Next(10000).ToString("D9"),
+                FirstName = name,
+                LastName = lastName,
                 FixedPhone = "2" + _random.Next(10000000, 99999999).ToString(),
                 CellPhone = "9" + _random.Next(10000000, 99999999).ToString(),
                 Address = address,
