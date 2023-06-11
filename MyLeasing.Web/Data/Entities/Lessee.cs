@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MyLeasing.Web.Data.Entities
 {
@@ -26,7 +28,7 @@ namespace MyLeasing.Web.Data.Entities
         public string Address { get; set; }
 
         [Display(Name ="Photo")]
-        public string ImageUrl { get; set; }
+        public Guid ImageId { get; set; }
 
         public string UserId { get; set; }
         public User User { get; set; }
@@ -34,5 +36,9 @@ namespace MyLeasing.Web.Data.Entities
         public string FullName => $"{FirstName} {LastName}";
 
         public string FullNameWithDocument => $"{FirstName} {LastName} - {Document}";
+
+        public string ImageFullPath => ImageId == Guid.Empty ?
+            $"https://myleasingwebtpsi.azurewebsites.net/images/noimage.png"
+            : $"https://myleasing76.blob.core.windows.net/lessee/{ImageId}";
     }
 }

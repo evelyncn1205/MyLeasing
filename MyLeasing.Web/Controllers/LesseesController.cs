@@ -9,6 +9,7 @@ using MyLeasing.Web.Data;
 using MyLeasing.Web.Data.Entities;
 using MyLeasing.Web.Helpers;
 using MyLeasing.Web.Models;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MyLeasing.Web.Controllers
 {
@@ -17,14 +18,14 @@ namespace MyLeasing.Web.Controllers
         
         private readonly ILesseeRepository _lesseeRepository;
         private readonly IUserHelper _userHelper;
-        private readonly IImageHelper _imageHelper;
+        private readonly IBlobHelper _blobHelper;
         private readonly IConverterHelper _converterHelper;
 
-        public LesseesController(ILesseeRepository lesseeRepository, IUserHelper userHelper, IImageHelper imageHelper,IConverterHelper converterHelper)
+        public LesseesController(ILesseeRepository lesseeRepository, IUserHelper userHelper, IBlobHelper blobHelper, IConverterHelper converterHelper)
         {
            _lesseeRepository = lesseeRepository;
            _userHelper = userHelper;
-           _imageHelper = imageHelper;
+           _blobHelper = blobHelper;
            _converterHelper = converterHelper;
         }
 
@@ -66,14 +67,14 @@ namespace MyLeasing.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var path = string.Empty;
+                 Guid imageId = Guid.Empty;
 
-                if(model.ImageFile != null && model.ImageFile.Length >0)
+                if (model.ImageFile != null && model.ImageFile.Length >0)
                 {
-                    path = await _imageHelper.UploadImageAsync(model.ImageFile, "lessee");
+                    imageId = await _blobHelper.UploadBlobAsync(model.ImageFile, "lessee");
                 }
 
-                var lessee = _converterHelper.ToLessee(model, path, true);
+                var lessee = _converterHelper.ToLessee(model, imageId, true);
 
                 lessee.User = await _userHelper.GetUserByEmailAsync("evelynrx_rj@hotmail.com");
                 await _lesseeRepository.CreatAsync(lessee);
@@ -112,14 +113,14 @@ namespace MyLeasing.Web.Controllers
             {
                 try
                 {
-                    var path = model.ImageUrl;
+                    Guid imageId = model.ImageId;
 
                     if (model.ImageFile != null && model.ImageFile.Length > 0)
                     {
-                        path = await _imageHelper.UploadImageAsync(model.ImageFile, "lessee");
+                       imageId= await _blobHelper.UploadBlobAsync(model.ImageFile, "lessee");
                     }
 
-                    var lessee = _converterHelper.ToLessee(model, path, false);
+                    var lessee = _converterHelper.ToLessee(model, imageId, false);
 
                     lessee.User = await _userHelper.GetUserByEmailAsync("evelynrx_rj@hotmail.com");
                     await _lesseeRepository.UpdateAsync(lessee); ;

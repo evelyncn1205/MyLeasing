@@ -18,15 +18,15 @@ namespace MyLeasing.Web.Controllers
     {
         private readonly IOwnerRepository _ownerRepository;
         private readonly IUserHelper _userHelper;
-        private readonly IImageHelper _imageHelper;
+        private readonly IBlobHelper _blobHelper;
         private readonly IConverterHelper _converterHelper;
 
 
-        public OwnersController(IOwnerRepository ownerRepository, IUserHelper userHelper, IImageHelper imageHelper, IConverterHelper converterHelper)
+        public OwnersController(IOwnerRepository ownerRepository, IUserHelper userHelper, IBlobHelper blobHelper, IConverterHelper converterHelper)
         {
             _ownerRepository = ownerRepository;
             _userHelper = userHelper;
-            _imageHelper = imageHelper;
+            _blobHelper = blobHelper;
             _converterHelper = converterHelper;
         }
 
@@ -70,14 +70,14 @@ namespace MyLeasing.Web.Controllers
             
             if (ModelState.IsValid)
             {
-                var path = string.Empty;
+                Guid imageId = Guid.Empty;
                 if(model.ImageFile != null && model.ImageFile.Length > 0)
                 {
                     
-                    path = await _imageHelper.UploadImageAsync(model.ImageFile,"owner");
+                   imageId = await _blobHelper.UploadBlobAsync(model.ImageFile,"owner");
                 }
                 
-                var owner = _converterHelper.ToOwner(model, path, true);
+                var owner = _converterHelper.ToOwner(model,imageId, true);
 
                 owner.User = await _userHelper.GetUserByEmailAsync("evelynrx_rj@hotmail.com");
                 await _ownerRepository.CreatAsync(owner);
@@ -87,20 +87,7 @@ namespace MyLeasing.Web.Controllers
             return View(model);
         }
 
-        //private Owner ToOwner(OwnerViewModel model, string path)
-        //{
-        //    return new Owner
-        //    {
-        //        Id =  model.Id,
-        //        ImageUrl = path,
-        //        OwnerName = model.OwnerName,
-        //        Address = model.Address,
-        //        CellPhone = model.CellPhone,
-        //        Document = model.Document,
-        //        FixedPhone = model.FixedPhone,
-        //        User = model.User,
-        //    };
-        //}
+        
 
         // GET: Owners/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -120,20 +107,7 @@ namespace MyLeasing.Web.Controllers
             return View(model);
         }
 
-        //private OwnerViewModel ToOwnerViewModel(Owner owner)
-        //{
-        //    return new OwnerViewModel
-        //    {
-        //        Id = owner.Id,
-        //        OwnerName = owner.OwnerName,
-        //        Address = owner.Address,
-        //        Document = owner.Document,
-        //        CellPhone = owner.CellPhone,
-        //        FixedPhone = owner.FixedPhone,
-        //        ImageUrl = owner.ImageUrl,
-        //        User = owner.User,
-        //    };
-        //}
+       
 
         // POST: Owners/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -147,14 +121,14 @@ namespace MyLeasing.Web.Controllers
             {
                 try
                 {
-                    var path = model.ImageUrl;
-                    if(model.ImageFile != null && model.ImageFile.Length>0)
+                    Guid imageId = model.ImageId;
+
+                    if (model.ImageFile != null && model.ImageFile.Length>0)
                     {
-                        
-                        path = await _imageHelper.UploadImageAsync(model.ImageFile,"owner");
+                        imageId = await _blobHelper.UploadBlobAsync(model.ImageFile,"owner");
                     }
 
-                    var owner = _converterHelper.ToOwner(model, path,false);
+                    var owner = _converterHelper.ToOwner(model, imageId,false);
                     
                     owner.User = await _userHelper.GetUserByEmailAsync("evelynrx_rj@hotmail.com");
 

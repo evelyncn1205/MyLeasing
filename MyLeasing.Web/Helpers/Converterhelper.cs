@@ -1,17 +1,18 @@
 ﻿using MyLeasing.Web.Data.Entities;
 using MyLeasing.Web.Models;
+using System;
 using System.IO;
 
 namespace MyLeasing.Web.Helpers
 {
     public class Converterhelper : IConverterHelper
     {
-        public Owner ToOwner(OwnerViewModel model, string path, bool isNew)
+        public Owner ToOwner(OwnerViewModel model, Guid imageId, bool isNew)
         {
             return new Owner
             {
                 Id = isNew ? 0 : model.Id,
-                ImageUrl = path,
+                ImageId = imageId,
                 OwnerName = model.OwnerName,
                 Address = model.Address,
                 CellPhone = model.CellPhone,
@@ -31,18 +32,18 @@ namespace MyLeasing.Web.Helpers
                 Document = owner.Document,
                 CellPhone = owner.CellPhone,
                 FixedPhone = owner.FixedPhone,
-                ImageUrl = owner.ImageUrl,
+                ImageId = owner.ImageId,
                 User = owner.User,
             };
         }
 
 
-        public Lessee ToLessee(LesseeViewModel model, string path, bool isNew)
+        public Lessee ToLessee(LesseeViewModel model, Guid imageId, bool isNew)
         {
             return new Lessee
             {
                 Id = isNew ? 0 : model.Id,
-                ImageUrl = path,
+                ImageId = imageId,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Address = model.Address,
@@ -58,7 +59,7 @@ namespace MyLeasing.Web.Helpers
             return new LesseeViewModel
             {
                 Id =lessee.Id,
-                ImageUrl = lessee.ImageUrl,
+                ImageId = lessee.ImageId,
                 FirstName = lessee.FirstName,
                 LastName = lessee.LastName,
                 Address = lessee.Address,
