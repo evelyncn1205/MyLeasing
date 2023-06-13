@@ -81,7 +81,7 @@ namespace MyLeasing.Web.Controllers
                 
                 var owner = _converterHelper.ToOwner(model,imageId, true);
 
-                owner.User = await _userHelper.GetUserByEmailAsync("evelynrx_rj@hotmail.com");
+                owner.User = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
                 await _ownerRepository.CreatAsync(owner);
                 return RedirectToAction(nameof(Index));
                                 
@@ -132,7 +132,7 @@ namespace MyLeasing.Web.Controllers
 
                     var owner = _converterHelper.ToOwner(model, imageId,false);
                     
-                    owner.User = await _userHelper.GetUserByEmailAsync("evelynrx_rj@hotmail.com");
+                    owner.User = await _userHelper.GetUserByEmailAsync(this.User.Identity.Name);
 
                     await _ownerRepository.UpdateAsync(owner);
                 }

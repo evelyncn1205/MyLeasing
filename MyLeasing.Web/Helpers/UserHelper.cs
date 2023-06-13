@@ -19,11 +19,11 @@ namespace MyLeasing.Web.Helpers
             _signInManager=signInManager;
         }
 
-        public async Task<IdentityResult>AddUserAsync(User user, string password)
+        public async Task<IdentityResult> AddUserAsync(User user, string password)
         {
             return await _userManager.CreateAsync(user, password);
-        }           
-                
+        }
+
         public async Task<User> GetUserByEmailAsync(string email)
         {
            return await _userManager.FindByEmailAsync(email);
