@@ -41,13 +41,13 @@ namespace MyLeasing.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("LesseeNotFound");
             }
 
             var lessee = await _lesseeRepository.GetByIdAsync(id.Value);
             if (lessee == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("LesseeNotFound");
             }
 
             return View(lessee);
@@ -91,13 +91,13 @@ namespace MyLeasing.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("LesseeNotFound");
             }
 
             var lessee = await _lesseeRepository.GetByIdAsync(id.Value);
             if (lessee == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("LesseeNotFound");
             }
 
             var model =_converterHelper.ToLesseeViewModel(lessee);
@@ -150,14 +150,14 @@ namespace MyLeasing.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("LesseeNotFound");
             }
 
             var lessee = await _lesseeRepository.GetByIdAsync(id.Value);
                 
             if (lessee == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("LesseeNotFound");
             }
 
             return View(lessee);
@@ -173,6 +173,11 @@ namespace MyLeasing.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        
+
+        public IActionResult LesseeNotFound ()
+        {
+            return View();
+        }
+
     }
 }
