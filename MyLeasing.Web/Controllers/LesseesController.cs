@@ -53,7 +53,7 @@ namespace MyLeasing.Web.Controllers
             return View(lessee);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         // GET: Lessees/Create
         public IActionResult Create()
         {
@@ -85,7 +85,7 @@ namespace MyLeasing.Web.Controllers
             return View(model);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         // GET: Lessees/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -145,7 +145,7 @@ namespace MyLeasing.Web.Controllers
         }
 
         // GET: Lessees/Delete/5
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

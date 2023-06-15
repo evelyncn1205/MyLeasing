@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -55,7 +56,7 @@ namespace MyLeasing.Web.Controllers
             return View(owner);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         // GET: Owners/Create
         public IActionResult Create()
         {
@@ -90,7 +91,7 @@ namespace MyLeasing.Web.Controllers
         }
 
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         // GET: Owners/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -154,7 +155,7 @@ namespace MyLeasing.Web.Controllers
         }
 
         // GET: Owners/Delete/5
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
